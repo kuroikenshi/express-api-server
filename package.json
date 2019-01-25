@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+	"dev-watch": "SET DEBUG=vue-project-api-server:* & nodemon app.js",
     "dev": "SET DEBUG=vue-project-api-server:* & npm start",
     "start": "node ./bin/www"
   },
@@ -12,6 +13,8 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "lodash": "^4.17.11",
-    "morgan": "~1.9.0"
-  }
+    "morgan": "~1.9.0",
+    "nodemon": "^1.18.9"
+  },
+  "doc-from-here": "https://blog.csdn.net/a419419/article/details/78831869"
 }

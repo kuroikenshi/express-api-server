@@ -12,7 +12,7 @@ router.get('/login', function(req, res, next) {
   	status: 200,
   	msg: '登录成功',
   	data: {
-  	  username: 'admin'
+      username: 'admin'
   	}
   });
 });
