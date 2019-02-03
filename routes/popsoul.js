@@ -26,7 +26,7 @@ router.all('/classes/getClassList',
       "data": [{
         "classCode": "PE19003",
         "className": "泡泡少儿英语学习班1",
-        "count": 7
+        "count": 10
       }, {
         "classCode": "PE19004",
         "className": "泡泡少儿英语学习班2",

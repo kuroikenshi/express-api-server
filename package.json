@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-	"dev-watch": "SET DEBUG=vue-project-api-server:* & nodemon app.js",
+    "dev-watch": "nodemon app.js",
     "dev": "SET DEBUG=vue-project-api-server:* & npm start",
     "start": "node ./bin/www"
   },

@@ -20,4 +20,4 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/popsoul', popsoulRouter);
 
-// module.exports = app;
+module.exports = app;
