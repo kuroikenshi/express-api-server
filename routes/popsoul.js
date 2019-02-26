@@ -64,6 +64,9 @@ router.all('/moments/getMoments',
         'userPhoto': '/static/imgs/user-photo.png',
         'createBy': '托尼老师',
         'createDate': '2018-11-05 14:57:25.0',
+        
+        'likes': [ "八月父亲", "八月母亲", "九月父亲", "九月母亲", "大花父亲", "大花母亲", "二花父亲", "二花母亲" ],
+        'ilike': true,
     
         'commentsList': [{
           'id': 1,
@@ -75,10 +78,12 @@ router.all('/moments/getMoments',
           'id': 2,
           'momentId': 1,
           'author': '小五父亲',
-          'content': '真的特别好',
-          'toUser': null
+          'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
+          'toUser': '八月父亲'
         }]
-      }, {
+      },
+      
+      {
         'momentId': 4,
         'classCode': 'GWC182021',
         'content': '今天的美术课，大家一起受到艺术熏陶。',
@@ -86,15 +91,15 @@ router.all('/moments/getMoments',
           '/static/imgs/sb1.jpg',
           '/static/imgs/s5.jpg',
           '/static/imgs/sb3.jpg',
-          '/static/imgs/th1.jpg',
-          '/static/imgs/m3.jpg',
-          '/static/imgs/sb4.jpg',
-          '/static/imgs/timg.jpg'
+          '/static/imgs/th1.jpg'
         ],
     
         'userPhoto': '/static/imgs/user-photo.png',
         'createBy': '托尼老师',
         'createDate': '2018-11-05 14:57:25.0',
+    
+        'likes': [],
+        'ilike': false,
     
         'commentsList': [{
           'id': 1,
