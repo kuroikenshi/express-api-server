@@ -65,7 +65,7 @@ router.all('/moments/getMoments',
         'createBy': '托尼老师',
         'createDate': '2018-11-05 14:57:25.0',
         
-        'likes': [ "八月父亲", "八月母亲", "九月父亲", "九月母亲", "大花父亲", "大花母亲", "二花父亲", "二花母亲" ],
+        'likes': [{"userId": "1", "username": "张三父亲"}, {"userId": "2", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
         'ilike': true,
     
         'commentsList': [{
@@ -98,7 +98,7 @@ router.all('/moments/getMoments',
         'createBy': '托尼老师',
         'createDate': '2018-11-05 14:57:25.0',
     
-        'likes': [],
+        'likes': null,
         'ilike': false,
     
         'commentsList': [{
