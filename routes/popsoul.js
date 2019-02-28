@@ -125,11 +125,11 @@ router.all('/moments/toggleLike',
   function (req, res, next) {
     let data = {}
     // console.log('toogleLike>>>\n', req)
-    console.log('toogleLike>>>\n')
+    /* console.log('toggleLike>>>\n')
     console.log('    req.body>>>', req.body)
     console.log('    req.params>>>', req.params)
     console.log('    req.query>>>', req.query)
-    console.log('\n')
+    console.log('\n') */
     
     if (req.body.momentId == 5) {
       data = {
@@ -220,10 +220,74 @@ router.all('/moments/toggleLike',
   }
 )
 
+// 发表评论
+router.all('/comments/publishComment',
+  function (req, res, next) {
+    console.log('发表评论>>>\n')
+    console.log('    req.body>>>', req.body)
+    console.log('    req.params>>>', req.params)
+    console.log('    req.query>>>', req.query)
+    console.log('\n')
+    
+    let data = {
+      'momentId': 5,
+      'classCode': 'GWC182021',
+      'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
+      'elementUrl': [
+        '/static/imgs/th1.jpg',
+        '/static/imgs/m3.jpg',
+        '/static/imgs/sb1.jpg',
+        '/static/imgs/s5.jpg',
+        '/static/imgs/sb3.jpg',
+        '/static/imgs/sb4.jpg',
+        '/static/imgs/timg.jpg'
+      ],
+        
+      'userPhoto': '/static/imgs/user-photo.png',
+      'createBy': '托尼老师',
+      'createDate': '2018-11-05 14:57:25.0',
+      
+      'likes': [{"userId": "1", "username": "张三父亲"}, {"userId": "2", "username": "李四母亲"}],
+        
+      'commentsList': [{
+        'id': 1,
+        // 'momentId': 1,
+        'author': '八月助教',
+        'content': '特别好',
+        'toUser': null
+      }, {
+        'id': 2,
+        // 'momentId': 1,
+        'author': '小五父亲',
+        'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
+        'toUser': '八月父亲'
+      }, {
+        'id': 3,
+        // 'momentId': 1,
+        'author': '小六父亲',
+        'content': '特别好！！特别好！！特别好！！特别好！！',
+        'toUser': '八月父亲'
+      }]
+    }
+    
+    data.commentsList.push({
+      'id': 4,
+      'author': req.body.authorName,
+      'content': req.body.content,
+      'toUser': null
+    })
+    
+    res.json({
+      "status": 200,
+      "msg": "OK",
+      "data": data
+    })
+  }
+)
+
 // TODEL: 获取新消息个数
 router.all('/moments/getNewsCount',
   function (req, res, next) {
-    console.log('>>> 获取新消息个数')
   }
 )
 
