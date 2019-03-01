@@ -40,6 +40,48 @@ router.all('/classes/getClassList',
   }
 )
 
+var momentData5 = {
+  'momentId': 5,
+  'classCode': 'GWC182021',
+  'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
+  'elementUrl': [
+    '/static/imgs/th1.jpg',
+    '/static/imgs/m3.jpg',
+    '/static/imgs/sb1.jpg',
+    '/static/imgs/s5.jpg',
+    '/static/imgs/sb3.jpg',
+    '/static/imgs/sb4.jpg',
+    '/static/imgs/timg.jpg'
+  ],
+
+  'userPhoto': '/static/imgs/user-photo.png',
+  'createBy': '托尼老师',
+  'createDate': '2018-11-05 14:57:25.0',
+
+  'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
+
+  'commentsList': [{
+    'commentId': 1,
+    'momentId': 5,
+    'authorId': 81,
+    'authorName': '八月助教',
+    'content': '特别好',
+    "toUserId": "",
+    "toUserName": null,
+    "flag": 0
+  }, {
+    'commentId': 2,
+    'momentId': 5,
+    'authorId': 53,
+    'authorName': '小五父亲',
+    'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
+    "toUserId": "83",
+    "toUserName": '八月父亲',
+    "flag": 0
+  }]
+}
+var moment5CommentAutoId = 3
+
 // 获取班级动态
 router.all('/moments/getMoments',
   function (req, res, next) {
@@ -47,175 +89,31 @@ router.all('/moments/getMoments',
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": [{
-        'momentId': 5,
-        'classCode': 'GWC182021',
-        'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
-        'elementUrl': [
-          '/static/imgs/th1.jpg',
-          '/static/imgs/m3.jpg',
-          '/static/imgs/sb1.jpg',
-          '/static/imgs/s5.jpg',
-          '/static/imgs/sb3.jpg',
-          '/static/imgs/sb4.jpg',
-          '/static/imgs/timg.jpg'
-        ],
-    
-        'userPhoto': '/static/imgs/user-photo.png',
-        'createBy': '托尼老师',
-        'createDate': '2018-11-05 14:57:25.0',
-        
-        'likes': [{"userId": "1", "username": "张三父亲"}, {"userId": "2", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
-    
-        'commentsList': [{
-          'id': 1,
-          'momentId': 1,
-          'author': '八月助教',
-          'content': '特别好',
-          'toUser': null
-        }, {
-          'id': 2,
-          'momentId': 1,
-          'author': '小五父亲',
-          'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
-          'toUser': '八月父亲'
-        }]
-      },
-      
-      {
-        'momentId': 4,
-        'classCode': 'GWC182021',
-        'content': '今天的美术课，大家一起受到艺术熏陶。',
-        'elementUrl': [
-          '/static/imgs/sb1.jpg',
-          '/static/imgs/s5.jpg',
-          '/static/imgs/sb3.jpg',
-          '/static/imgs/th1.jpg'
-        ],
-    
-        'userPhoto': '/static/imgs/user-photo.png',
-        'createBy': '托尼老师',
-        'createDate': '2018-11-05 14:57:25.0',
-    
-        'likes': null,
-    
-        'commentsList': [{
-          'id': 1,
-          'momentId': 1,
-          'author': '七月助教',
-          'content': '特别好',
-          'toUser': null
-        }, {
-          'id': 2,
-          'momentId': 1,
-          'author': '小六父亲',
-          'content': '真的特别好',
-          'toUser': null
-        }]
-      }]
+      "data": [momentData5]
     })
   }
 )
 
-var countOfMoment5 = 0;
-var countOfMoment4 = 0;
-
 // 点赞/取消点赞
 router.all('/moments/toggleLike',
   function (req, res, next) {
-    let data = {}
-    // console.log('toogleLike>>>\n', req)
-    /* console.log('toggleLike>>>\n')
-    console.log('    req.body>>>', req.body)
-    console.log('    req.params>>>', req.params)
-    console.log('    req.query>>>', req.query)
-    console.log('\n') */
-    
-    if (req.body.momentId == 5) {
-      data = {
-        'momentId': 5,
-        'classCode': 'GWC182021',
-        'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
-        'elementUrl': [
-          '/static/imgs/th1.jpg',
-          '/static/imgs/m3.jpg',
-          '/static/imgs/sb1.jpg',
-          '/static/imgs/s5.jpg',
-          '/static/imgs/sb3.jpg',
-          '/static/imgs/sb4.jpg',
-          '/static/imgs/timg.jpg'
-        ],
-    
-        'userPhoto': '/static/imgs/user-photo.png',
-        'createBy': '托尼老师',
-        'createDate': '2018-11-05 14:57:25.0',
-        
-        'likes': [{"userId": "1", "username": "张三父亲"}, {"userId": "2", "username": "李四母亲"}],
-    
-        'commentsList': [{
-          'id': 1,
-          'momentId': 1,
-          'author': '八月助教',
-          'content': '特别好',
-          'toUser': null
-        }, {
-          'id': 2,
-          'momentId': 1,
-          'author': '小五父亲',
-          'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
-          'toUser': '八月父亲'
-        }]
+    let foundLikeIdx = -1
+    momentData5.likes.forEach((item, idx) => {
+      if (item.userId === "123456789") {
+        foundLikeIdx = idx
       }
-      
-      countOfMoment5 += 1
-      if (countOfMoment5 % 2 == 0) {
-        data.likes.push({"userId": "123456789", "username": "华晨名"})
-      }
+    })
+    if (foundLikeIdx != -1) {
+      momentData5.likes.splice(foundLikeIdx)
     }
-    
-    else if (req.body.momentId == 4) {
-      data = {
-        'momentId': 4,
-        'classCode': 'GWC182021',
-        'content': '今天的美术课，大家一起受到艺术熏陶。',
-        'elementUrl': [
-          '/static/imgs/sb1.jpg',
-          '/static/imgs/s5.jpg',
-          '/static/imgs/sb3.jpg',
-          '/static/imgs/th1.jpg'
-        ],
-    
-        'userPhoto': '/static/imgs/user-photo.png',
-        'createBy': '托尼老师',
-        'createDate': '2018-11-05 14:57:25.0',
-    
-        'likes': [],
-    
-        'commentsList': [{
-          'id': 1,
-          'momentId': 1,
-          'author': '七月助教',
-          'content': '特别好',
-          'toUser': null
-        }, {
-          'id': 2,
-          'momentId': 1,
-          'author': '小六父亲',
-          'content': '真的特别好',
-          'toUser': null
-        }]
-      }
-      
-      countOfMoment4 += 1
-      if (countOfMoment4 % 2 == 1) {
-        data.likes.push({"userId": "123456789", "username": "华晨名"})
-      }
+    else {
+      momentData5.likes.push({"userId": "123456789", "username": "华晨名"})
     }
     
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": data
+      "data": momentData5
     })
   }
 )
@@ -229,58 +127,21 @@ router.all('/comments/publishComment',
     console.log('    req.query>>>', req.query)
     console.log('\n')
     
-    let data = {
+    momentData5.commentsList.push({
+      'commentId': moment5CommentAutoId++,
       'momentId': 5,
-      'classCode': 'GWC182021',
-      'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
-      'elementUrl': [
-        '/static/imgs/th1.jpg',
-        '/static/imgs/m3.jpg',
-        '/static/imgs/sb1.jpg',
-        '/static/imgs/s5.jpg',
-        '/static/imgs/sb3.jpg',
-        '/static/imgs/sb4.jpg',
-        '/static/imgs/timg.jpg'
-      ],
-        
-      'userPhoto': '/static/imgs/user-photo.png',
-      'createBy': '托尼老师',
-      'createDate': '2018-11-05 14:57:25.0',
-      
-      'likes': [{"userId": "1", "username": "张三父亲"}, {"userId": "2", "username": "李四母亲"}],
-        
-      'commentsList': [{
-        'id': 1,
-        // 'momentId': 1,
-        'author': '八月助教',
-        'content': '特别好',
-        'toUser': null
-      }, {
-        'id': 2,
-        // 'momentId': 1,
-        'author': '小五父亲',
-        'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
-        'toUser': '八月父亲'
-      }, {
-        'id': 3,
-        // 'momentId': 1,
-        'author': '小六父亲',
-        'content': '特别好！！特别好！！特别好！！特别好！！',
-        'toUser': '八月父亲'
-      }]
-    }
-    
-    data.commentsList.push({
-      'id': 4,
-      'author': req.body.authorName,
+      'authorId': req.body.authorId,
+      'authorName': req.body.authorName,
       'content': req.body.content,
-      'toUser': null
+      "toUserId": req.body.toUserId || '',
+      "toUserName": req.body.toUserName || null,
+      "flag": 0
     })
     
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": data
+      "data": momentData5
     })
   }
 )
