@@ -40,47 +40,148 @@ router.all('/classes/getClassList',
   }
 )
 
-var momentData5 = {
-  'momentId': 5,
-  'classCode': 'GWC182021',
-  'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
-  'elementUrl': [
-    '/static/imgs/th1.jpg',
-    '/static/imgs/m3.jpg',
-    '/static/imgs/sb1.jpg',
-    '/static/imgs/s5.jpg',
-    '/static/imgs/sb3.jpg',
-    '/static/imgs/sb4.jpg',
-    '/static/imgs/timg.jpg'
-  ],
-
-  'userPhoto': '/static/imgs/user-photo.png',
-  'createBy': '托尼老师',
-  'createDate': '2018-11-05 14:57:25.0',
-
-  'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
-
-  'commentsList': [{
-    'commentId': 1,
+var momentDatas = {
+  '5': {
     'momentId': 5,
-    'authorId': 81,
-    'authorName': '八月助教',
-    'content': '特别好',
-    "toUserId": "",
-    "toUserName": null,
-    "flag": 0
-  }, {
-    'commentId': 2,
-    'momentId': 5,
-    'authorId': 53,
-    'authorName': '小五父亲',
-    'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
-    "toUserId": "83",
-    "toUserName": '八月父亲',
-    "flag": 0
-  }]
+    'classCode': 'GWC182021',
+    'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
+    'elementUrl': [
+      '/static/imgs/th1.jpg',
+      '/static/imgs/m3.jpg',
+      '/static/imgs/sb1.jpg',
+      '/static/imgs/s5.jpg',
+      '/static/imgs/sb3.jpg',
+      '/static/imgs/sb4.jpg',
+      '/static/imgs/timg.jpg'
+    ],
+
+    'userPhoto': '/static/imgs/user-photo.png',
+    'createBy': '托尼老师',
+    'createDate': '2018-11-05 14:57:25.0',
+
+    'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
+
+    'commentsList': [{
+      'commentId': 1,
+      'momentId': 5,
+      'authorId': 81,
+      'authorName': '八月助教',
+      'content': '特别好',
+      "toUserId": "",
+      "toUserName": null,
+      "flag": 0
+    }, {
+      'commentId': 2,
+      'momentId': 5,
+      'authorId': 53,
+      'authorName': '小五父亲',
+      'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
+      "toUserId": "83",
+      "toUserName": '八月父亲',
+      "flag": 0
+    }, {
+      'commentId': 5,
+      'momentId': 5,
+      'authorId': '123456789',
+      'authorName': '华晨名',
+      'content': '删我删我',
+      "toUserId": "83",
+      "toUserName": '八月父亲',
+      "flag": 0
+    }, {
+      'commentId': 6,
+      'momentId': 5,
+      'authorId': '123456789',
+      'authorName': '华晨名',
+      'content': '删我删我删我删我删我删我删我删我',
+      "toUserId": "83",
+      "toUserName": '八月父亲',
+      "flag": 0
+    }, {
+      'commentId': 7,
+      'momentId': 5,
+      'authorId': '123456789',
+      'authorName': '华晨名',
+      'content': '删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我删我',
+      "toUserId": "83",
+      "toUserName": '八月父亲',
+      "flag": 0
+    }]
+  },
+  '6': {
+    'momentId': 6,
+    'classCode': 'GWC182021',
+    'content': '今天二语文课,大家一起欣赏了好听的音乐',
+    'elementUrl': [],
+
+    'userPhoto': '/static/imgs/user-photo.png',
+    'createBy': '莉莉老师',
+    'createDate': '2019-03-05 14:57:25.0',
+
+    'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
+
+    'commentsList': [{
+      'commentId': 3,
+      'momentId': 6,
+      'authorId': 81,
+      'authorName': '八月助教',
+      'content': '特别好',
+      "toUserId": "",
+      "toUserName": null,
+      "flag": 0
+    }, {
+      'commentId': 4,
+      'momentId': 6,
+      'authorId': 53,
+      'authorName': '小五父亲',
+      'content': '特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！特别好！！',
+      "toUserId": "83",
+      "toUserName": '八月父亲',
+      "flag": 0
+    }]
+  },
+  '7': {
+    'momentId': '7',
+    'classCode': 'GWC182021',
+    'content': '测试',
+    'elementUrl': [],
+
+    'userPhoto': '/static/imgs/user-photo.png',
+    'createBy': '莉莉老师',
+    'createDate': '2019-03-05 14:57:25.0',
+
+    'likes': [],
+    'commentsList': []
+  },
+  '8': {
+    'momentId': '8',
+    'classCode': 'GWC182021',
+    'content': '测试',
+    'elementUrl': [],
+
+    'userPhoto': '/static/imgs/user-photo.png',
+    'createBy': '莉莉老师',
+    'createDate': '2019-03-05 14:57:25.0',
+
+    'likes': [],
+    'commentsList': []
+  },
+  '9': {
+    'momentId': '9',
+    'classCode': 'GWC182021',
+    'content': '测试',
+    'elementUrl': [],
+
+    'userPhoto': '/static/imgs/user-photo.png',
+    'createBy': '莉莉老师',
+    'createDate': '2019-03-05 14:57:25.0',
+
+    'likes': [],
+    'commentsList': []
+  }
 }
-var moment5CommentAutoId = 3
+
+var commentAutoId = 10
 
 // 获取班级动态
 router.all('/moments/getMoments',
@@ -89,7 +190,7 @@ router.all('/moments/getMoments',
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": [momentData5]
+      "data": Object.values(momentDatas)
     })
   }
 )
@@ -98,22 +199,24 @@ router.all('/moments/getMoments',
 router.all('/moments/toggleLike',
   function (req, res, next) {
     let foundLikeIdx = -1
-    momentData5.likes.forEach((item, idx) => {
+    
+    let momentDataItem = momentDatas[req.body.momentId]
+    momentDataItem.likes.forEach((item, idx) => {
       if (item.userId === "123456789") {
         foundLikeIdx = idx
       }
     })
     if (foundLikeIdx != -1) {
-      momentData5.likes.splice(foundLikeIdx)
+      momentDataItem.likes.splice(foundLikeIdx)
     }
     else {
-      momentData5.likes.push({"userId": "123456789", "username": "华晨名"})
+      momentDataItem.likes.push({"userId": "123456789", "username": "华晨名"})
     }
     
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": momentData5
+      "data": momentDataItem
     })
   }
 )
@@ -127,8 +230,9 @@ router.all('/comments/publishComment',
     console.log('    req.query>>>', req.query)
     console.log('\n')
     
-    momentData5.commentsList.push({
-      'commentId': moment5CommentAutoId++,
+    let momentDataItem = momentDatas[req.body.momentId]
+    momentDataItem.commentsList.push({
+      'commentId': commentAutoId++,
       'momentId': 5,
       'authorId': req.body.authorId,
       'authorName': req.body.authorName,
@@ -141,7 +245,7 @@ router.all('/comments/publishComment',
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": momentData5
+      "data": momentDataItem
     })
   }
 )
@@ -156,17 +260,18 @@ router.all('/comments/deleteComment',
     console.log('\n')
     
     let foundIdx = -1
-    momentData5.commentsList.forEach((commentItem, idx) => {
+    let momentDataItem = momentDatas[req.body.momentId]
+    momentDataItem.commentsList.forEach((commentItem, idx) => {
       if (commentItem.commentId == req.body.commentId) {
         foundIdx = idx
       }
     })
-    momentData5.commentsList.splice(foundIdx, 1)
+    momentDataItem.commentsList.splice(foundIdx, 1)
     
     res.json({
       "status": 200,
       "msg": "OK",
-      "data": momentData5
+      "data": momentDataItem
     })
   }
 )
