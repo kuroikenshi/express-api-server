@@ -146,6 +146,31 @@ router.all('/comments/publishComment',
   }
 )
 
+// 删除空间动态
+router.all('/comments/deleteComment',
+  function (req, res, next) {
+    console.log('删除评论>>>\n')
+    console.log('    req.body>>>', req.body)
+    console.log('    req.params>>>', req.params)
+    console.log('    req.query>>>', req.query)
+    console.log('\n')
+    
+    let foundIdx = -1
+    momentData5.commentsList.forEach((commentItem, idx) => {
+      if (commentItem.commentId == req.body.commentId) {
+        foundIdx = idx
+      }
+    })
+    momentData5.commentsList.splice(foundIdx, 1)
+    
+    res.json({
+      "status": 200,
+      "msg": "OK",
+      "data": momentData5
+    })
+  }
+)
+
 // TODEL: 获取新消息个数
 router.all('/moments/getNewsCount',
   function (req, res, next) {
