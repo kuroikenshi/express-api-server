@@ -1,6 +1,32 @@
 var express = require('express')
 var router = express.Router()
 
+
+// 扩展String类型的原生方法，提供类似java或python的format方法
+String.prototype.format = function(args) {
+	var result = this;
+	if (arguments.length > 0) {
+		if (arguments.length == 1 && typeof (args) == "object") {
+			for (var key in args) {
+				if(args[key]!=undefined){
+					var reg = new RegExp("({" + key + "})", "g");
+					result = result.replace(reg, args[key]);
+				}
+			}
+		}
+		else {
+			for (var i = 0; i < arguments.length; i++) {
+				if (arguments[i] != undefined) {
+					var reg = new RegExp("({[" + i + "]})", "g");
+					result = result.replace(reg, arguments[i]);
+				}
+			}
+		}
+	}
+	return result;
+}
+
+
 // 伪·登录
 router.all('/login',
   function (req, res, next) {
@@ -56,7 +82,8 @@ var momentDatas = {
     ],
 
     'userPhoto': '/static/imgs/user-photo.png',
-    'createBy': '托尼老师',
+    'createId': 't00002',
+    'createName': '托尼老师',
     'createDate': '2018-11-05 14:57:25.0',
 
     'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
@@ -115,7 +142,8 @@ var momentDatas = {
     'elementUrl': [],
 
     'userPhoto': '/static/imgs/user-photo.png',
-    'createBy': '莉莉老师',
+    'createId': 't00001',
+    'createName': '莉莉老师',
     'createDate': '2019-03-05 14:57:25.0',
 
     'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
@@ -147,7 +175,8 @@ var momentDatas = {
     'elementUrl': [],
 
     'userPhoto': '/static/imgs/user-photo.png',
-    'createBy': '莉莉老师',
+    'createId': 't00001',
+    'createName': '莉莉老师',
     'createDate': '2019-03-05 14:57:25.0',
 
     'likes': [],
@@ -160,7 +189,8 @@ var momentDatas = {
     'elementUrl': [],
 
     'userPhoto': '/static/imgs/user-photo.png',
-    'createBy': '莉莉老师',
+    'createId': 't00001',
+    'createName': '莉莉老师',
     'createDate': '2019-03-05 14:57:25.0',
 
     'likes': [],
@@ -173,7 +203,8 @@ var momentDatas = {
     'elementUrl': [],
 
     'userPhoto': '/static/imgs/user-photo.png',
-    'createBy': '莉莉老师',
+    'createId': 't00001',
+    'createName': '莉莉老师',
     'createDate': '2019-03-05 14:57:25.0',
 
     'likes': [],
@@ -182,16 +213,84 @@ var momentDatas = {
 }
 
 var commentAutoId = 10
+var momentAutoId = 10
+
+var oldMomentData = {
+  'momentId': '{momentId}',
+  'classCode': 'GWC182021',
+  'content': '动态-第{momentId}条，动态内容，动态内容，动态内容，动态内容，动态内容，动态内容，动态内容，动态内容，动态内容',
+  'elementUrl': [],
+
+  'userPhoto': '/static/imgs/user-photo.png',
+  'createId': 't00001',
+  'createName': '莉莉老师',
+  'createDate': '2019-03-05 14:57:25.0',
+
+  'likes': [],
+  'commentsList': []
+}
+
+function createMoment(momentId) {
+  return JSON.parse(JSON.stringify(oldMomentData).format({momentId: momentId}))
+}
+
+let createLen = 13
+for (let i = 0; i < createLen; i++) {
+  let momentId = momentAutoId++
+  momentDatas[momentId] = createMoment(momentId)
+}
 
 // 获取班级动态
 router.all('/moments/getMoments',
   function (req, res, next) {
-    console.log('>>> 获取班级动态')
-    res.json({
-      "status": 200,
-      "msg": "OK",
-      "data": Object.values(momentDatas)
-    })
+    console.log('>>> 获取班级动态\n')
+    console.log('    req.body>>>', req.body)
+    console.log('    req.params>>>', req.params)
+    console.log('    req.query>>>', req.query)
+    console.log('\n')
+    
+    let count = req.body.count || 5
+    console.log('count>>>', count)
+    
+    // 加载最新的数据
+    if (req.body.mode == 'new') {
+      // TODO: 区分有无lastUpdate
+      // TODO: 区分有无后续数据
+      res.json({
+        "status": 200,
+        "msg": "OK",
+        "data": Object.values(momentDatas).slice(0, count)
+      })
+    }
+    // 加载以前的数据
+    else if (req.body.mode == 'old') {
+      // 确定加载更多，要加载的id范围
+      let momentIds = Object.keys(momentDatas)
+      let idx = momentIds.indexOf(req.body.momentId)
+      
+      console.log('加载更多的开始id（不包含）:', req.body.momentId)
+      console.log('加载更多的开始id（不包含）位于:', idx)
+      
+      console.log('momentIds 1 >>>', momentIds)
+      momentIds = momentIds.slice(idx + 1, idx + 1 + count)
+      console.log('momentIds 2 >>>', momentIds)
+      
+      // 组装更多数据
+      let moreMoments = []
+      for (let i = 0; i < momentIds.length; i++) {
+        moreMoments.push(momentDatas[momentIds[i]])
+      }
+      
+      if (moreMoments.length > 0) {
+        console.log('>>>>>>', moreMoments[0].momentId, '~', moreMoments[momentIds.length - 1].momentId)
+      }
+      
+      res.json({
+        "status": 200,
+        "msg": "OK",
+        "data": moreMoments
+      })
+    }
   }
 )
 
