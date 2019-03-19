@@ -1,6 +1,29 @@
 var express = require('express')
 var router = express.Router()
 
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+// 例子：
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+Date.prototype.Format = function(fmt) { //author: meizz
+  var o = {
+    "M+" : this.getMonth()+1,                 //月份
+    "d+" : this.getDate(),                    //日
+    "h+" : this.getHours(),                   //小时
+    "m+" : this.getMinutes(),                 //分
+    "s+" : this.getSeconds(),                 //秒
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度
+    "S"  : this.getMilliseconds()             //毫秒
+  };
+  if(/(y+)/.test(fmt))
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+  for(var k in o)
+    if(new RegExp("("+ k +")").test(fmt))
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+  return fmt;
+}
 
 // 扩展String类型的原生方法，提供类似java或python的format方法
 String.prototype.format = function(args) {
@@ -67,8 +90,8 @@ router.all('/classes/getClassList',
 )
 
 var momentDatas = {
-  '5': {
-    'momentId': 5,
+  '115': {
+    'momentId': 115,
     'classCode': 'GWC182021',
     'content': '今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。今天的音乐课，大家一起欣赏了XXX音乐，受到艺术熏陶。',
     'elementUrl': [
@@ -135,8 +158,8 @@ var momentDatas = {
       "flag": 0
     }]
   },
-  '6': {
-    'momentId': 6,
+  '114': {
+    'momentId': 114,
     'classCode': 'GWC182021',
     'content': '今天二语文课,大家一起欣赏了好听的音乐',
     'elementUrl': [],
@@ -168,8 +191,8 @@ var momentDatas = {
       "flag": 0
     }]
   },
-  '7': {
-    'momentId': '7',
+  '113': {
+    'momentId': '113',
     'classCode': 'GWC182021',
     'content': '测试',
     'elementUrl': [],
@@ -182,8 +205,8 @@ var momentDatas = {
     'likes': [],
     'commentsList': []
   },
-  '8': {
-    'momentId': '8',
+  '112': {
+    'momentId': '112',
     'classCode': 'GWC182021',
     'content': '测试',
     'elementUrl': [],
@@ -196,8 +219,8 @@ var momentDatas = {
     'likes': [],
     'commentsList': []
   },
-  '9': {
-    'momentId': '9',
+  '111': {
+    'momentId': '111',
     'classCode': 'GWC182021',
     'content': '测试',
     'elementUrl': [],
@@ -213,7 +236,7 @@ var momentDatas = {
 }
 
 var commentAutoId = 10
-var momentAutoId = 10
+var momentAutoId = 111
 
 var oldMomentData = {
   'momentId': '{momentId}',
@@ -236,8 +259,20 @@ function createMoment(momentId) {
 
 let createLen = 13
 for (let i = 0; i < createLen; i++) {
-  let momentId = momentAutoId++
+  let momentId = momentAutoId--
   momentDatas[momentId] = createMoment(momentId)
+}
+
+// 获取已存最大的班级动态id
+function getTheMaxMomentId() {
+  let ids = Object.keys(momentDatas)
+  let max = -1
+  ids.forEach(id => {
+    if (parseInt(id) > max) {
+      max = id
+    }
+  })
+  return max
 }
 
 // 获取班级动态
@@ -259,13 +294,13 @@ router.all('/moments/getMoments',
       res.json({
         "status": 200,
         "msg": "OK",
-        "data": Object.values(momentDatas).slice(0, count)
+        "data": Object.values(momentDatas).reverse().slice(0, count)
       })
     }
     // 加载以前的数据
     else if (req.body.mode == 'old') {
       // 确定加载更多，要加载的id范围
-      let momentIds = Object.keys(momentDatas)
+      let momentIds = Object.keys(momentDatas).reverse()
       let idx = momentIds.indexOf(req.body.momentId)
       
       console.log('加载更多的开始id（不包含）:', req.body.momentId)
@@ -291,6 +326,56 @@ router.all('/moments/getMoments',
         "data": moreMoments
       })
     }
+  }
+)
+
+    
+/*
+'momentId': '111',
+'classCode': 'GWC182021',
+'content': '测试',
+'elementUrl': [],
+
+'userPhoto': '/static/imgs/user-photo.png',
+'createId': 't00001',
+'createName': '莉莉老师',
+'createDate': '2019-03-05 14:57:25.0',
+
+'likes': [],
+'commentsList': []
+*/
+// 发布班级动态
+router.all('/moments/publishMoment',
+  function (req, res, next) {
+    console.log('>>> 发布班级动态\n')
+    console.log('    req.body>>>', req.body)
+    console.log('    req.params>>>', req.params)
+    console.log('    req.query>>>', req.query)
+    console.log('\n')
+
+    let newMomentId = getTheMaxMomentId() + 1 + ''
+    let momentData = req.body
+    momentData['momentId'] = newMomentId
+    
+    momentData['userPhoto'] = momentData['userPhoto'] || '/static/imgs/user-photo.png'  // 模拟从session获取
+    momentData['createId'] = momentData['createId'] || 123456789                        // 模拟从session获取
+    momentData['createName'] = momentData['createName'] || '华晨名'                      // 模拟从session获取
+    momentData['createDate'] = (new Date()).Format("yyyy-MM-dd hh:mm:ss.S")
+    
+    momentData['likes'] = []
+    momentData['commentsList'] = []
+    
+    console.log(momentData)
+    
+    momentDatas[newMomentId] = momentData
+    
+    res.json({
+      "status": 200,
+      "msg": "OK",
+      "data": {
+        "result": 1
+      }
+    })
   }
 )
 
