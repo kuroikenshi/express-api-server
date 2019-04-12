@@ -111,7 +111,7 @@ var momentDatas = {
     'userPhoto': '/static/imgs/user-photo.png',
     'createId': 't00002',
     'createName': '托尼老师',
-    'createDate': '2018-11-05 14:57:25.0',
+    'createDate': '2019-03-06 14:57:25',
 
     'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
 
@@ -171,7 +171,7 @@ var momentDatas = {
     'userPhoto': '/static/imgs/user-photo.png',
     'createId': 't00001',
     'createName': '莉莉老师',
-    'createDate': '2019-03-05 14:57:25.0',
+    'createDate': '2019-03-05 14:57:25',
 
     'likes': [{"userId": "33", "username": "张三父亲"}, {"userId": "44", "username": "李四母亲"}, {"userId": "123456789", "username": "华晨名"}],
 
@@ -204,7 +204,7 @@ var momentDatas = {
     'userPhoto': '/static/imgs/user-photo.png',
     'createId': 't00001',
     'createName': '莉莉老师',
-    'createDate': '2019-03-05 14:57:25.0',
+    'createDate': '2019-03-04 14:57:25',
 
     'likes': [],
     'commentsList': []
@@ -218,7 +218,7 @@ var momentDatas = {
     'userPhoto': '/static/imgs/user-photo.png',
     'createId': 't00001',
     'createName': '莉莉老师',
-    'createDate': '2019-03-05 14:57:25.0',
+    'createDate': '2019-03-03 14:57:25',
 
     'likes': [],
     'commentsList': []
@@ -232,7 +232,7 @@ var momentDatas = {
     'userPhoto': '/static/imgs/user-photo.png',
     'createId': 't00001',
     'createName': '莉莉老师',
-    'createDate': '2019-03-05 14:57:25.0',
+    'createDate': '2019-03-02 14:57:25',
 
     'likes': [],
     'commentsList': []
@@ -251,20 +251,22 @@ var oldMomentData = {
   'userPhoto': '/static/imgs/user-photo.png',
   'createId': 't00001',
   'createName': '莉莉老师',
-  'createDate': '2019-03-05 14:57:25.0',
+  'createDate': '2019-02-{createDay} 14:57:25',
 
   'likes': [],
   'commentsList': []
 }
 
-function createMoment(momentId) {
-  return JSON.parse(JSON.stringify(oldMomentData).format({momentId: momentId}))
+function createMoment(momentId, createDay) {
+  return JSON.parse(JSON.stringify(oldMomentData).format({momentId: momentId, createDay: createDay}))
 }
 
 let createLen = 13
+let createAutoDay = 24
 for (let i = 0; i < createLen; i++) {
   let momentId = momentAutoId--
-  momentDatas[momentId] = createMoment(momentId)
+  let createDate = createAutoDay--
+  momentDatas[momentId] = createMoment(momentId, createDate)
 }
 
 // 获取已存最大的班级动态id
@@ -282,14 +284,14 @@ function getTheMaxMomentId() {
 // 获取班级动态
 router.all('/moments/getMoments',
   function (req, res, next) {
-    console.log('>>> 获取班级动态\n')
-    console.log('    req.body>>>', req.body)
-    console.log('    req.params>>>', req.params)
-    console.log('    req.query>>>', req.query)
+    console.log(' -> 获取班级动态\n')
+    console.log('  req.body>>>', req.body)
+    console.log('  req.params>>>', req.params)
+    console.log('  req.query>>>', req.query)
     console.log('\n')
     
     let count = req.body.count || 5
-    console.log('count>>>', count)
+    console.log('  count>>>', count)
     
     // 加载最新的数据
     if (req.body.mode == 'new') {
@@ -301,27 +303,53 @@ router.all('/moments/getMoments',
         "data": Object.values(momentDatas).reverse().slice(0, count)
       })
     }
-    // 加载以前的数据
+    // 加载以前的数据(按照createDate < lastUpdateTime)
     else if (req.body.mode == 'old') {
       // 确定加载更多，要加载的id范围
       let momentIds = Object.keys(momentDatas).reverse()
-      let idx = momentIds.indexOf(req.body.momentId)
+      
+      console.log(' -> 加载更多模式')
+      console.log('    所有逆序momentIds: [' + momentIds.join(', ') + ']')
+      
+      // 旧代码：逻辑是使用最后一个momentId做判断
+      /* let idx = momentIds.indexOf(req.body.momentId)
       
       console.log('加载更多的开始id（不包含）:', req.body.momentId)
       console.log('加载更多的开始id（不包含）位于:', idx)
       
       console.log('momentIds 1 >>>', momentIds)
       momentIds = momentIds.slice(idx + 1, idx + 1 + count)
-      console.log('momentIds 2 >>>', momentIds)
+      console.log('momentIds 2 >>>', momentIds) */
+      
+      // 已经加载的最后一个momentItem的时间戳
+      let lastUpdateTimeStamp = req.body.lastUpdateTime ? new Date(req.body.lastUpdateTime).valueOf() : new Date()
+      // console.log(' -> 最后一次更新的时间戳: ' + lastUpdateTimeStamp)
       
       // 组装更多数据
       let moreMoments = []
       for (let i = 0; i < momentIds.length; i++) {
-        moreMoments.push(momentDatas[momentIds[i]])
+        if (momentDatas[momentIds[i]] && momentDatas[momentIds[i]].createDate) {
+          let momentTimeStamp = new Date(momentDatas[momentIds[i]].createDate).valueOf()
+          /* 
+          console.log(' -> 当前时间戳: ' + momentTimeStamp + ', momentId: ' + momentIds[i])
+          console.log('    小于最后一次更新时间戳: ' + (momentTimeStamp < lastUpdateTimeStamp))
+          console.log('    当前more中数据个数: ' + moreMoments.length)
+          console.log(' => ' + ((momentTimeStamp < lastUpdateTimeStamp) && (moreMoments.length < count)))
+          */
+          // 如果当前遍历的moment的createDate在lastUpdateDate之前的
+          // 并且moreMoments中不满一次返回上线，加入到moreMoments中
+          if (((momentTimeStamp < lastUpdateTimeStamp) && (moreMoments.length < count))) {
+            moreMoments.push(momentDatas[momentIds[i]])
+          }
+        }
       }
       
       if (moreMoments.length > 0) {
-        console.log('>>>>>>', moreMoments[0].momentId, '~', moreMoments[momentIds.length - 1].momentId)
+        let moreIds = moreMoments.map(v => v.momentId).join(', ')
+        
+        console.log(' => [' + moreIds + ']')
+      } else {
+        console.log(' => 没有更多')
       }
       
       res.json({
@@ -343,7 +371,7 @@ router.all('/moments/getMoments',
 'userPhoto': '/static/imgs/user-photo.png',
 'createId': 't00001',
 'createName': '莉莉老师',
-'createDate': '2019-03-05 14:57:25.0',
+'createDate': '2019-03-05 14:57:25',
 
 'likes': [],
 'commentsList': []
