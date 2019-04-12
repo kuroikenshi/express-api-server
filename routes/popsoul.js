@@ -59,7 +59,11 @@ router.all('/login',
       "status": 200,
       "msg": "OK",
       "data": {
-        "username": "123456789"
+        "user": {
+          "id": "123456789",
+          "username": "华晨名",
+          "userType": 4
+        }
       }
     })
   }
